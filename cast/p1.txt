@@ -1,0 +1,105 @@
+n="d" stdDeviation="5"/></filter>
+<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="3" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .5 0"/></filter>
+<pattern id="hD" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="5" stroke="#1C1F2E" stroke-width="1.3"/></pattern>
+<pattern id="hL" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="5" stroke="#F6ECD4" stroke-width="1.1"/></pattern>
+<pattern id="hS" width="1.4" height="1.4" patternUnits="userSpaceOnUse" patternTransform="rotate(38)"><line x1="0" y1="0" x2="0" y2="1.4" stroke="#1C1F2E" stroke-width=".45"/></pattern>
+<pattern id="hSL" width="1.4" height="1.4" patternUnits="userSpaceOnUse" patternTransform="rotate(-38)"><line x1="0" y1="0" x2="0" y2="1.4" stroke="#F6ECD4" stroke-width=".4"/></pattern>
+</defs></svg>
+<div class="paperfx" aria-hidden="true"><svg preserveAspectRatio="none" viewBox="0 0 1000 1000">
+<rect width="1000" height="1000" filter="url(#grain)" opacity=".55"/>
+<g filter="url(#wash)" opacity=".5"><ellipse cx="-20" cy="60" rx="190" ry="150" fill="#2B3350"/><ellipse cx="1030" cy="80" rx="170" ry="140" fill="#8A6A3C"/><ellipse cx="1020" cy="980" rx="200" ry="150" fill="#2B3350"/><ellipse cx="-30" cy="1000" rx="170" ry="130" fill="#8A6A3C"/></g>
+</svg></div>
+<div class="wrap" id="app"></div>
+<script>
+const OPENINGS=[
+{id:"italian",name:"Italian Game",tag:"A polite, sunlit duel.",emoji:"☀️",art:"sun",accent:"#E8961E",side:"w",
+moves:["e4","e5","Nf3","Nc6","Bc4","Bc5","c3","Nf6","d3","d6","O-O","O-O","Re1","a6","Bb3","Ba7","h3","h6","Nbd2","Re8"],
+notes:[
+"White steps into the centre and opens paths for the queen and bishop. A courteous bow.",
+"Black bows back, claiming an equal share of the centre.",
+"The knight attacks e5 at once. A challenge, offered with a smile.",
+"Black defends e5 with a knight and accepts the invitation.",
+"The bishop aims at f7, the weakest square in Black's camp.",
+"Black mirrors it, pointing a bishop at White's own weak spot on f2.",
+"White prepares d4 for a bigger centre and gives the bishop a place to retreat.",
+"Black develops and hits e4, making White think about defence.",
+"White guards e4. This duel will be slow and civil.",
+"Black copies the calm approach, supporting e5 and freeing the light-squared bishop.",
+"White tucks the king away before any swords come out.",
+"Black does the same. Both kings are safe, and the manoeuvring begins.",
+"The rook backs up e4 and gets ready for a later d4 push.",
+"Black makes a retreat square so the bishop can't be chased around later.",
+"White steps the bishop back before Black can harass it with ...Na5 or ...b5.",
+"Black tucks the bishop onto a7, still staring at f2 from a safe distance.",
+"White stops Black's pieces from landing on g4.",
+"Black returns the favour and keeps White's pieces off g4 and g5.",
+"The last knight joins, heading for f1 and then g3 on a long, polite walk.",
+"Black mirrors with the rook. Balanced and patient: the better planner wins this duel."]},
+{id:"sicilian",name:"Sicilian Defence",tag:"A knife fight in an alley.",emoji:"🔪",art:"knife",accent:"#D6264A",side:"b",
+moves:["e4","c5","Nf3","d6","d4","cxd4","Nxd4","Nf6","Nc3","a6","Be3","e5","Nb3","Be6","f3","Be7","Qd2","O-O","O-O-O","Nbd7","g4","b5"],
+notes:[
+"White takes the centre and expects a normal, tidy game.",
+"Black refuses to copy and attacks d4 from the side. The knife is out.",
+"White develops and gets ready to push d4.",
+"Black guards e5 so no White knight can settle there later.",
+"White breaks open the centre to get pieces out fast.",
+"Black swaps a side pawn for a centre pawn. A good trade in the long run.",
+"White recaptures. The knight now stands in the middle of the board.",
+"Black develops and hits e4, forcing White's hand.",
+"White defends e4 with another piece.",
+"The famous Najdorf move. It keeps White's pieces off b5 and prepares ...e5 or ...b5.",
+"The English Attack starts. White plans f3, Qd2, castling long and a pawn storm.",
+"Black kicks the knight and grabs space, accepting a hole on d5.",
+"The knight retreats, but still keeps an eye on d5.",
+"Black guards d5, the square this whole fight revolves around.",
+"White props up e4 and prepares g4 to launch the kingside pawns.",
+"Black develops so the king can castle.",
+"White lines up the queen and gets ready to castle long.",
+"Black's king goes short, to the kingside.",
+"White castles long. With kings on opposite sides, it's now a race to attack.",
+"Black brings the last knight towards the queenside action.",
+"White's pawns charge straight at Black's king.",
+"Black's pawns charge back. Whoever breaks through first wins the knife fight."]},
+{id:"kid",name:"King's Indian Defence",tag:"A fortress waiting to strike.",emoji:"🏰",art:"fort",accent:"#3B4FA0",side:"b",
+moves:["d4","Nf6","c4","g6","Nc3","Bg7","e4","d6","Nf3","O-O","Be2","e5","O-O","Nc6","d5","Ne7","Ne1","Nd7","Nd3","f5","Bd2","Nf6","f3","f4"],
+notes:[
+"White claims the centre with the queen's pawn.",
+"Black develops and stops e4 for the moment.",
+"White grabs more space on the queenside.",
+"Black prepares a home for the bishop on g7. The first brick of the fortress.",
+"White develops and gets ready for e4.",
+"The bishop settles on the long diagonal, aiming at White's centre.",
+"White builds the big pawn centre Black is happy to allow.",
+"Black stops e5 and keeps the fortress compact.",
+"White develops the knight.",
+"Black's king moves inside the walls.",
+"White prepares to castle too.",
+"Black strikes at the centre from behind the walls.",
+"White's king heads to safety.",
+"Black adds more pressure to d4.",
+"White locks the centre and takes space. Now each side attacks on its own wing.",
+"The knight reroutes towards the kingside, where Black's attack will come.",
+"White's knight heads for d3 to support a queenside pawn push.",
+"Black clears the way for the f-pawn to march.",
+"The knight lands on d3, eyeing the c5 square.",
+"The gates open. Black's kingside attack begins.",
+"White develops and braces for the storm.",
+"The knight comes back to f6 to join the attack.",
+"White reinforces e4 against the pressure.",
+"Black cramps White's kingside. Next come ...g5 and ...g4, aimed straight at the king."]}
+];
+
+const SQD={italian:"#3F5A2E",sicilian:"#7E2A26",kid:"#2B3350"};
+const INK="#1C1F2E";
+const PATHS={
+p:`<circle cx="22.5" cy="13.5" r="5.5"/><path d="M16 33c.6-6.5 3-10 6.5-11 3.5 1 5.9 4.5 6.5 11z"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`,
+r:`<path d="M13.5 8h4.5v3.5h2.5V8h4v3.5H27V8h4.5v9h-18z"/><path d="M16 17h13l1 16H15z"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`,
+n:`<path d="M15.5 33c0-6.5 3.5-8.5 5-12-3.5 1.3-8 .4-9-2.2 1-4.8 6.3-9.3 11.5-10.8L24.5 5l2.8 3.6c5.6 2.4 7.6 10.5 6.2 24.4z"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`,
+b:`<circle cx="22.5" cy="6.5" r="2.6"/><path d="M22.5 9.5c6.5 4.3 8 12.3 4.2 17.5h-8.4c-3.8-5.2-2.3-13.2 4.2-17.5z"/><path d="M16.5 27h12v6h-12z"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`,
+q:`<path d="M13.5 33L11 14l6.5 8 5-12 5 12 6.5-8-2.5 19z"/><circle cx="11" cy="12.5" r="2.3"/><circle cx="22.5" cy="8.5" r="2.3"/><circle cx="34" cy="12.5" r="2.3"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`,
+k:`<path d="M21.2 3.5h2.6v2.8h2.9v2.6h-2.9v12.5h-2.6v-12.5h-2.9V6.3h2.9z"/><path d="M14 33c-2.3-8 1.5-13 8.5-11.7 7-1.3 10.8 3.7 8.5 11.7z"/><path d="M12 38.5v-3.2c0-1.5 1-2.3 2.5-2.3h16c1.5 0 2.5.8 2.5 2.3v3.2z"/>`};
+let uid=0;
+function pieceG(t,fill,dark,fine){
+  const id="cp"+(uid++), h=dark?(fine?"hSL":"hL"):(fine?"hS":"hD");
+  const detail=t==="n"?`<circle cx="20" cy="13.5" r="1.3" fill="${dark?"#F6ECD4":INK}"/>`:t==="b"?`<path d="M25 14l-4 4.5" stroke="${dark?"#F6ECD4":INK}" stroke-width="1.4" fill="none"/>`:"";
+  return `<clipPath id="${
