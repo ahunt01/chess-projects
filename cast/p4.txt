@@ -1,0 +1,75 @@
+"file">${fl}</span>`));
+  }
+  
+  if(anim&&S.last)animate(S.last);
+  drawSide();
+}
+
+function animate(m){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const b=document.getElementById("board"),f=b.querySelector(`[data-sq="${m.from}"]`),t=b.querySelector(`[data-sq="${m.to}"]`);
+  const pc=t&&t.querySelector(".pc");if(!f||!pc)return;
+  const a=f.getBoundingClientRect(),z=t.getBoundingClientRect(),dx=a.left-z.left,dy=a.top-z.top;
+  pc.style.zIndex=6;
+  pc.animate([
+    {transform:`translate(${dx}px,${dy}px) scale(1)`},
+    {transform:"translate(0,0) scale(1)"}],{duration:320,easing:"cubic-bezier(.2,.8,.2,1)"})
+    .onfinish=()=>pc.style.zIndex="";
+}
+
+function drawSide(){
+  const o=S.op,cap=document.getElementById("cap"),ct=document.getElementById("ctrls"),i=S.ply-1,done=S.ply>=o.moves.length;
+  document.getElementById("ticks").innerHTML=o.moves.map((_,k)=>`<i class="${k<S.ply?"on":""}"></i>`).join("");
+  ct.innerHTML="";
+  if(S.mode==="learn"){
+    cap.innerHTML=i<0?`<div class="mv slab">Start</div><p>${o.tag} Tap Next move, swipe the board, or use your arrow keys.</p>`
+      :`<div class="mv slab">${label(i)}</div><p>${o.notes[i]}</p>`;
+    const bk=el(`<button class="btn">Back</button>`),nx=el(`<button class="btn primary">Next move</button>`);
+    bk.disabled=!S.ply;nx.disabled=done;bk.onclick=()=>step(-1);nx.onclick=()=>step(1);ct.append(bk,nx);
+    if(done){const pl=el(`<button class="btn primary">Play it yourself</button>`);pl.onclick=()=>setMode("practice");ct.appendChild(pl)}
+    else{const rs=el(`<button class="btn">Start over</button>`);rs.onclick=()=>setMode("learn");ct.appendChild(rs)}
+  }else{
+    const you=o.side==="w"?"White":"Black";
+    const blind=S.mode==="blind";
+    let h=i<0?`<div class="mv slab">Your turn</div><p>${blind?`Blind mode. No notes, no move hints. You're ${you}.`:`You're ${you}. Play the book moves and the board answers.`}</p>`
+      :`<div class="mv slab">${label(i)}</div>${blind?"":`<p>${o.notes[i]}</p>`}`;
+    if(done){markLearned(o.id);if(blind&&!S.slips&&!S.peeks)markMastered(o.id);h+=`<p class="fb">${S.slips||S.peeks?`Line complete with ${S.slips} wrong move${S.slips===1?"":"s"} and ${S.peeks} hint${S.peeks===1?"":"s"}. Run it again for a clean sheet.`:(blind?`Mastered. You played the ${o.name} blind with no mistakes.`:`Clean run. You played the ${o.name} from memory. Try Blind next.`)}</p>`}
+    else if(S.fb)h+=`<p class="fb">${S.fb}</p>`;
+    else if(S.busy)h+=`<p class="fb">Thinking…</p>`;
+    else if(i>=0)h+=`<p class="fb">Your move.</p>`;
+    cap.innerHTML=h;
+    const sh=el(`<button class="btn">Show me</button>`),rs=el(`<button class="btn">Start over</button>`);
+    sh.disabled=done||S.busy;sh.onclick=showMe;rs.onclick=()=>setMode(S.mode);
+    if(done){const nx=nextOpening(o),b=el(`<button class="btn primary">Next: ${nx.name}</button>`);b.onclick=()=>openPage(nx);ct.append(b,rs)}else ct.append(sh,rs);
+  }
+}
+
+function step(d){
+  if(d>0){if(S.ply>=S.op.moves.length)return;S.last=S.game.move(S.op.moves[S.ply]);S.ply++;draw(true)}
+  else{if(!S.ply)return;S.ply--;S.game=gameAt(S.ply);S.last=S.ply?gameAt(S.ply-1).move(S.op.moves[S.ply-1]):null;draw()}
+}
+function clickSq(sq){
+  if(S.mode==="learn"||S.busy||S.ply>=S.op.moves.length||S.game.turn()!==S.op.side)return;
+  if(S.sel){const m=S.game.moves({square:S.sel,verbose:true}).find(x=>x.to===sq);if(m)return tryMove(m)}
+  const p=S.game.get(sq);S.sel=p&&p.color===S.op.side&&S.sel!==sq?sq:null;draw();
+}
+function tryMove(m){
+  S.sel=null;const want=S.op.moves[S.ply].replace(/[+#]/,"");
+  if(m.san.replace(/[+#]/,"")===want){
+    S.last=S.game.move(m.san);S.ply++;S.fb="";S.hint=null;
+    if(S.ply<S.op.moves.length)S.busy=true;
+    draw(true);if(S.busy)setTimeout(autoMove,750);
+  }else{
+    S.slips++;S.fb=`${m.san} is legal, but not the book move. Try again, or press Show me.`;draw();
+    const b=document.getElementById("board");b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");
+  }
+}
+function autoMove(){if(S.mode==="learn")return;S.last=S.game.move(S.op.moves[S.ply]);S.ply++;S.busy=false;S.hint=null;draw(true)}
+function showMe(){S.peeks++;const m=new Chess(S.game.fen()).move(S.op.moves[S.ply]);S.hint={from:m.from,to:m.to};S.fb=`Move the piece on ${m.from} to ${m.to}.`;draw()}
+let tx=null;document.addEventListener("touchstart",e=>{if(e.target.closest&&e.target.closest("#board")&&S.mode==="learn")tx=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>40)step(dx<0?1:-1)},{passive:true});
+document.addEventListener("keydown",e=>{if(!S.op||S.mode!=="learn")return;if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1)});
+home();
+</script>
+</body>
+</html>
