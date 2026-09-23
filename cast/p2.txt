@@ -1,72 +1,26 @@
-id}»">${PATHS[t]}</clipPath>
-  <g filter="url(#ink)"><g fill="${fill}">${PATHS[t]}</g>
-  <rect x="${dark?0:24}" y="0" width="${dark?20:22}" height="45" fill="url(#${h})" opacity="${dark?.3:.45}" clip-path="url(#${id})"/>
-  <g fill="none" stroke="${INK}" stroke-width="1.7" stroke-linejoin="round">${PATHS[t]}</g>${detail}</g>`;
-}
-function pieceSVG(t,c){
-  return `<svg viewBox="8 2 29 38">${c==="w"?pieceG(t,"#F4E8CC",false,true):pieceG(t,"#262B3E",true,true)}</svg>`;
-}
-function persp(cx,cy,dark){
-  let r="";for(let i=0;i<8;i++)for(let j=0;j<8;j++)r+=`<rect x="${(i-4)*38}" y="${(j-4)*38}" width="38.5" height="38.5" fill="${(i+j)%2?dark:"#F1E4C6"}"/>`;
-  return `<g filter="url(#wob)"><g transform="translate(${cx} ${cy}) scale(1 .32) rotate(45)">${r}<rect x="-152" y="-152" width="304" height="304" fill="url(#hD)" opacity=".25"/></g></g>`;
-}
-function big(t,x,y,s,fill,dark){return `<g transform="translate(${x} ${y}) scale(${s})">${pieceG(t,fill,dark,false)}</g>`}
-const ART={
-sun:()=>`<svg viewBox="0 0 400 300"><g filter="url(#wash)"><ellipse cx="200" cy="110" rx="150" ry="100" fill="#E6A94A" opacity=".6"/><ellipse cx="30" cy="40" rx="80" ry="60" fill="#3F5A2E" opacity=".45"/></g>
-${persp(200,262,"#3F5A2E")}<g transform="translate(265 19) scale(-6 6)">${pieceG("b","#F4E8CC",false,false)}</g>${big("b",135,19,6,"#4E6B38",true)}</svg>`,
-knife:()=>`<svg viewBox="0 0 400 300"><g filter="url(#wash)"><ellipse cx="340" cy="50" rx="110" ry="80" fill="#1C1F2E" opacity=".5"/><ellipse cx="70" cy="160" rx="90" ry="90" fill="#A8322D" opacity=".4"/></g>
-${persp(200,262,"#7E2A26")}<g transform="translate(265 19) scale(-6 6)">${pieceG("n","#F4E8CC",false,false)}</g>${big("n",140,19,6,"#A8322D",true)}</svg>`,
-fort:()=>`<svg viewBox="0 0 400 300"><g filter="url(#wash)"><ellipse cx="220" cy="80" rx="160" ry="80" fill="#2B3350" opacity=".45"/><ellipse cx="370" cy="230" rx="70" ry="60" fill="#8A6A3C" opacity=".4"/></g>
-${persp(200,262,"#2B3350")}${big("k",140,20,5,"#F4E8CC",false)}${big("r",-5,19,6,"#2F3A5E",true)}</svg>`};
-OPENINGS.push(
-{id:"ruy",name:"Ruy Lopez",tag:"The old aristocrat with a long plan.",art:"ruy",accent:"#7A3B63",side:"w",
-moves:["e4","e5","Nf3","Nc6","Bb5","a6","Ba4","Nf6","O-O","Be7","Re1","b5","Bb3","d6","c3","O-O","h3","Na5","Bc2","c5"],
-notes:["White takes the centre, as a gentleman should.","Black matches it.","The knight attacks e5.","Black defends with a knight.",
-"The signature move. The bishop pressures the knight that guards e5, a threat for much later.","Black asks the bishop whether it plans to stay.",
-"It stays on the diagonal, keeping the pressure.","Black develops and attacks e4.","White castles, trusting that e4 is safe for now.",
-"Black develops and prepares to castle.","The rook guards e4 so the pressure on e5 becomes real.","Black chases the bishop away.",
-"The bishop retreats to b3, where it now eyes f7.","Black shores up e5 and frees the light-squared bishop.",
-"White prepares d4 and makes a home for the bishop on c2.","Black's king moves to safety.",
-"White rules out ...Bg4 and ...Ng4 before pushing d4. The aristocrat is never in a hurry.",
-"The knight hits the bishop to trade it off.","White keeps the bishop, tucking it on c2.","Black grabs queenside space. Long manoeuvres ahead."]},
-{id:"qgd",name:"Queen's Gambit",tag:"A polite bribe.",art:"qgd",accent:"#2F6F75",side:"w",
-moves:["d4","d5","c4","e6","Nc3","Nf6","Bg5","Be7","e3","O-O","Nf3","h6","Bh4","b6","cxd5","Nxd5","Bxe7","Qxe7","Nxd5","exd5"],
-notes:["White claims the centre with the queen's pawn.","Black claims it right back.",
-"The offer. White dangles a pawn to lure Black's d-pawn away from the centre.","Black declines the pawn and guards d5.",
-"White adds pressure on d5.","Black develops and adds a defender.","The bishop pins the knight to Black's queen.",
-"Black breaks the pin by stepping in with the bishop.","White opens a path for the light-squared bishop.","Black castles.",
-"White develops the last knight.","Black asks the bishop what it wants.","The bishop keeps the pin.",
-"Black prepares ...Bb7, the Tartakower setup.","White releases the tension in the centre.","Black recaptures with the knight, offering trades.",
-"White swaps bishops.","Black recaptures with the queen, developing it at the same time.","More trades.",
-"Black recaptures with a pawn. Fewer pieces, and the position is level."]},
-{id:"french",name:"French Defence",tag:"The grumpy wall-builder.",art:"french",accent:"#4C5E86",side:"b",
-moves:["e4","e6","d4","d5","Nc3","Nf6","e5","Nfd7","f4","c5","Nf3","Nc6","Be3","cxd4","Nxd4","Bc5","Qd2","O-O","O-O-O","a6"],
-notes:["White takes the centre.","Black builds the first brick of a wall, preparing ...d5.","White builds a full centre.",
-"Black challenges e4 from behind the wall.","White defends e4.","Black adds pressure on e4.",
-"White pushes past, gaining space and kicking the knight.","The knight retreats. Black accepts a cramped but solid position.",
-"White backs up e5 with another pawn. A big, proud chain.","Black attacks the base of White's chain. This is the French plan.",
-"White supports d4.","Black piles more pressure on d4.","White defends d4 again.","Black trades off White's centre pawn.",
-"White recaptures, placing a knight in the middle.","Black develops and piles pressure on the d4 knight.",
-"White lines up the queen and prepares to castle long.","Black castles short.",
-"White castles long. Opposite sides, so both kings will be attacked.","Black prepares ...b5 to storm White's king."]},
-{id:"caro",name:"Caro-Kann",tag:"The calm, unbreakable accountant.",art:"caro",accent:"#8A5A2E",side:"b",
-moves:["e4","c6","d4","d5","Nc3","dxe4","Nxe4","Bf5","Ng3","Bg6","h4","h6","Nf3","Nd7","h5","Bh7","Bd3","Bxd3","Qxd3","e6"],
-notes:["White takes the centre.","Black prepares ...d5 and keeps the light-squared bishop free.","White builds a full centre.",
-"Black challenges e4.","White defends e4 with a knight.","Black trades pawns, avoiding any cramped structure.",
-"White recaptures with the knight.","Black develops the bishop before closing it in with ...e6. Books balanced.",
-"White chases the bishop with tempo.","The bishop steps back and stays active.","White threatens to trap the bishop with h5.",
-"Black makes an escape square on h7.","White develops.","Black develops the knight, keeping ...Nf6 flexible.",
-"White gains space and pushes the bishop back again.","The bishop retreats, still safe.","White offers a bishop trade.",
-"Black accepts. Fewer pieces means fewer risks.","White recaptures with the queen.","Black completes a solid structure. Nothing to attack."]},
-{id:"london",name:"London System",tag:"Orders the same meal every time.",art:"london",accent:"#3E5C76",side:"w",
-moves:["d4","d5","Bf4","Nf6","e3","c5","c3","Nc6","Nd2","e6","Ngf3","Bd6","Bg3","O-O","Bd3","b6","Ne5","Bb7","f4"],
-notes:["White starts with the queen's pawn, as always.","Black matches it.","The trademark: the bishop comes out early, before e3 locks it in.",
-"Black develops.","White builds the familiar pyramid.","Black strikes at d4.","White props up d4. Same setup, every game.",
-"Black adds pressure on d4.","The knight heads to d2, supporting e4 later.","Black opens the dark-squared bishop.",
-"White develops the other knight.","Black offers to trade the London bishop.","White steps back and keeps the bishop.",
-"Black castles.","White points a bishop at Black's kingside.","Black prepares to put the bishop on the long diagonal.",
-"The knight jumps into e5, a strong outpost.","Black develops the bishop.","White supports the knight with a pawn. Solid, and familiar."]},
-{id:"scandi",name:"Scandinavian",tag:"The rude early punch.",art:"scandi",accent:"#B5541F",side:"b",
-moves:["e4","d5","exd5","Qxd5","Nc3","Qa5","d4","Nf6","Nf3","c6","Bc4","Bf5","Bd2","e6","Qe2","Bb4","O-O-O","Nbd7","a3","Bxc3","Bxc3","Qc7"],
-notes:["White takes the centre.","Black punches straight away, attacking e4.","White takes the pawn.",
-"Black takes back with the queen, out on move two.","White develops and hits the queen."]
+panel{gap:16px}.mv{font-size:2.5rem!important;margin-bottom:10px!important}.cap p{font-size:1.12rem!important}}
+
+/* BOARD */
+.frame{position:relative;padding:14px 14px 34px 34px}
+.under{position:absolute;inset:14px 14px 34px 34px;pointer-events:none}
+.under svg{width:100%;height:100%;overflow:visible;display:block}
+.board{position:relative;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);aspect-ratio:1/1;width:100%;user-select:none;-webkit-user-select:none}
+.sq{position:relative;min-width:0;min-height:0}
+.sq.last::before{content:"";position:absolute;inset:6%;background:var(--glow);opacity:.55;border-radius:38% 45% 40% 50%;filter:blur(2px)}
+.sq.sel::before{content:"";position:absolute;inset:4%;border:3px solid var(--glow);border-radius:40% 48% 44% 50%}
+.sq.hint::after{content:"";position:absolute;inset:4%;border:3px dashed var(--accent);border-radius:50%;z-index:4;animation:spin 7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dot{position:absolute;left:38%;top:38%;width:24%;height:24%;border-radius:45% 55% 50% 48%;background:var(--glow);opacity:.85;z-index:3;pointer-events:none;box-shadow:0 0 0 2px var(--ink)}
+.ring{position:absolute;inset:3%;border-radius:50%;border:3px solid var(--glow);z-index:3;pointer-events:none}
+.rank,.file{position:absolute;font-family:"Alfa Slab One",Georgia,serif;font-size:.8rem;color:var(--muted);pointer-events:none}
+.rank{left:-24px;top:50%;transform:translateY(-50%)}
+.file{bottom:-28px;left:50%;transform:translateX(-50%)}
+.pc{position:absolute;inset:5% 8% 7%;z-index:2;filter:drop-shadow(2px 3px 0 rgba(28,31,46,.28))}
+.pc svg{width:100%;height:100%;display:block;overflow:visible}
+.board.shake{animation:shake .3s}
+@keyframes shake{33%{transform:translateX(-5px) rotate(-.4deg)}66%{transform:translateX(5px) rotate(.4deg)}}
+
+/* PANEL */
+.panel{display:flex;flex-direction:column;gap:22px;padding-top:6px}
+.modes{display:flex;gap:26px}
+.modes button{font-family:"Alfa Slab One",Georgia,serif;fon

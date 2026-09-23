@@ -1,0 +1,9 @@
+f(S.mode==="learn")return;S.last=S.game.move(S.op.moves[S.ply]);S.ply++;S.busy=false;S.hint=null;draw(true)}
+function showMe(){S.peeks++;const m=new Chess(S.game.fen()).move(S.op.moves[S.ply]);S.hint={from:m.from,to:m.to};S.fb=`Move the piece on ${m.from} to ${m.to}.`;draw()}
+let tx=null;document.addEventListener("touchstart",e=>{if(e.target.closest&&e.target.closest("#board")&&S.mode==="learn")tx=e.touches[0].clientX},{passive:true});
+document.addEventListener("touchend",e=>{if(tx===null)return;const dx=e.changedTouches[0].clientX-tx;tx=null;if(Math.abs(dx)>40)step(dx<0?1:-1)},{passive:true});
+document.addEventListener("keydown",e=>{if(!S.op||S.mode!=="learn")return;if(e.key==="ArrowRight")step(1);if(e.key==="ArrowLeft")step(-1)});
+home();
+</script>
+</body>
+</html>

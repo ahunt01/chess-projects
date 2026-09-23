@@ -1,0 +1,24 @@
+t-size:1.05rem;color:var(--muted);padding-bottom:6px;position:relative}
+.modes button[aria-pressed="true"]{color:var(--ink)}
+.modes button[aria-pressed="true"]::after{content:"";position:absolute;left:-4px;right:-4px;bottom:0;height:8px;background:var(--accent);opacity:.85;border-radius:40% 60% 50% 45%;transform:rotate(-1deg)}
+.cap{min-height:220px}
+.mv{margin:0 0 16px;font-size:clamp(3rem,7vw,4.6rem)}
+.cap p{margin:0;font-size:1.3rem;max-width:34ch}
+.fb{margin-top:14px!important;font-size:1.05rem!important;font-style:italic;color:var(--muted)}
+.ticks{display:flex;gap:4px}
+.ticks i{flex:1;height:10px;background:rgba(28,31,46,.14);border-radius:40% 50%}
+.ticks i.on{background:var(--accent)}
+.ctrls{display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:"Alfa Slab One",Georgia,serif;padding:10px 20px;border:2.5px solid var(--ink);border-radius:6px 10px 7px 12px;background:var(--paper2);box-shadow:3px 3px 0 var(--ink);transition:transform .1s}
+.btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.primary{background:var(--accent);color:var(--paper2)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<filter id="wob" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="9"/></filter>
+<filter id="ink" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".5" numOctaves="2" seed="2" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.3"/></filter>
+<filter id="wash" x="-40%" y="-40%" width="180%" height="180%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="4" seed="9" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="90" result="d"/><feGaussianBlur i
