@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turning Point. See the move that decided your game.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#F2F2EF; --surface2:#E8E8E4; --ink:#000000; --muted:#6B6B66; --line:#E2E2DD;
+  --accent:#1F5A43; --accentSoft:#E4EDE7;
+  --inacc:#C99A2E; --mist:#C4642D; --blund:#A8322D;
+  --sql:#ECECE8; --sqd:#9AA89C;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#000;--surface:#141414;--surface2:#1E1E1E;--ink:#FFF;--muted:#9A9A94;--line:#262626;--accentSoft:#12251C}}
+:root[data-theme="dark"]{--bg:#000;--surface:#141414;--surface2:#1E1E1E;--ink:#FFF;--muted:#9A9A94;--line:#262626;--accentSoft:#12251C}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.hidden{display:none!important}
+
+/* Nav */
+.bar{display:flex;align-items:center;justify-content:space-between;height:76px}
+.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.logo svg{width:20px;height:20px}
+.bar nav{display:fl
