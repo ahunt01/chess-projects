@@ -2,9 +2,8 @@
 <p>Loading…</p>
 <script>
 (async()=>{
-  const n=18;
   let s='';
-  for(let i=0;i<n;i++) s += await (await fetch('/chess-projects/turning-point/p'+i+'.txt')).text();
+  s += await (await fetch('/chess-projects/turning-point/p0.txt')).text();
   document.open(); document.write(s); document.close();
 })();
 </script></body></html>
