@@ -4,7 +4,7 @@
 (async()=>{
   const n=19;
   let s='';
-  for(let i=0;i<n;i++) s += await (await fetch('p'+i+'.txt')).text();
+  for(let i=0;i<n;i++) s += await (await fetch('/chess-projects/cast/p'+i+'.txt')).text();
   document.open(); document.write(s); document.close();
 })();
 </script></body></html>
