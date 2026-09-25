@@ -1,117 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Turning Point. See the move that decided your game.</title>
-<meta name="description" content="Drop in a PGN. Stockfish runs on your device, grades every move and names the one that decided the game.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l6-6 4 4 8-8' fill='none' stroke='%231F5A43' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<meta name="description" content="Add a game from Chess.com or Lichess. Stockfish reads every move on your device and points to the moment the result changed.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M3 17l6-6 4 4 8-8' fill='none' stroke='%232E7D5B' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#FFFFFF; --surface:#F2F2EF; --surface2:#E8E8E4; --ink:#000000; --muted:#6B6B66; --line:#E2E2DD;
-  --accent:#1F5A43; --accentSoft:#E4EDE7;
-  --inacc:#C99A2E; --mist:#C4642D; --blund:#A8322D;
+  --bg:#0B0B0B; --surface:#141414; --surface2:#1E1E1E; --ink:#FFFFFF; --muted:#9A9A94; --line:#262626;
+  --accent:#2E7D5B; --accentSoft:#12251C;
+  --inacc:#D8A93A; --mist:#D8763A; --blund:#C4463F;
   --sql:#ECECE8; --sqd:#9AA89C;
+  --played:#C4463F; --engine:#3E9C74;
   box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#000;--surface:#141414;--surface2:#1E1E1E;--ink:#FFF;--muted:#9A9A94;--line:#262626;--accentSoft:#12251C;--sql:#3A3A38;--sqd:#5E6B60}}
-:root[data-theme="dark"]{--bg:#000;--surface:#141414;--surface2:#1E1E1E;--ink:#FFF;--muted:#9A9A94;--line:#262626;--accentSoft:#12251C;--sql:#3A3A38;--sqd:#5E6B60}
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
 button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
-button:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+button:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
 .hidden{display:none!important}
-a{color:var(--ink)}
 
 /* Nav */
-.bar{display:flex;align-items:center;justify-content:space-between;height:76px}
-.logo{font-weight:800;font-size:1.05rem;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
-.logo svg{width:20px;height:20px}
-.bar nav{display:flex;gap:22px;align-items:center;font-size:.95rem;font-weight:600;color:var(--muted)}
-.bar nav a{text-decoration:none}
-.bar nav a:hover{color:var(--ink)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:78px}
+.logo{font-weight:800;font-size:1.06rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.logo .mark{width:26px;height:26px;border-radius:7px;background:var(--ink);display:grid;place-items:center;flex:none}
+.logo .mark svg{width:16px;height:16px;color:var(--bg)}
+.bar nav{display:flex;gap:26px;align-items:center;font-size:.95rem;font-weight:600;color:var(--muted)}
 
 /* Hero */
-.hero{padding:40px 0 20px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:56px;align-items:start}
-@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px}}
-h1{font-size:clamp(2.6rem,6vw,4.2rem);line-height:.98;letter-spacing:-.045em;font-weight:800;margin:0 0 18px;max-width:14ch}
-.lede{font-size:1.2rem;color:var(--muted);max-width:44ch;margin:0}
-.steps{margin:26px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;color:var(--muted);font-size:.98rem}
-.steps li{display:flex;gap:10px;align-items:flex-start}
-.steps b{color:var(--ink);font-weight:700;min-width:18px}
+.hero{padding:34px 0 30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,470px);gap:60px;align-items:start}
+@media (max-width:940px){.hero{grid-template-columns:1fr;gap:34px}}
+h1{font-size:clamp(2.7rem,6.2vw,4.4rem);line-height:1.02;letter-spacing:-.045em;font-weight:800;margin:0 0 20px;max-width:13ch}
+.lede{font-size:1.12rem;color:var(--muted);max-width:42ch;margin:0 0 30px}
 
 /* Input card */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:22px}
-.card h2{font-size:1.05rem;margin:0 0 12px;letter-spacing:-.01em}
-textarea{width:100%;min-height:150px;resize:vertical;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.86rem;line-height:1.5}
-.drop{border-color:var(--accent);background:var(--accentSoft)}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
-.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--bg)}
-.seg button{padding:8px 16px;font-size:.9rem;font-weight:600;color:var(--muted)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px}
+.dz{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--surface2);cursor:pointer;transition:border-color .15s,background .15s}
+.dz:hover,.dz.over{border-color:var(--accent);background:var(--accentSoft)}
+.dz .ic{width:44px;height:44px;border-radius:11px;background:var(--bg);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.dz .ic svg{width:19px;height:19px}
+.dz b{display:block;font-weight:700;font-size:1rem}
+.dz span{font-size:.93rem;color:var(--muted)}
+.dz u{text-decoration-thickness:1.5px;text-underline-offset:3px}
+textarea{width:100%;min-height:96px;resize:vertical;margin-top:12px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:14px 16px;font-family:inherit;font-size:.97rem;line-height:1.5}
+textarea::placeholder{color:var(--muted)}
+.row{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.go{background:var(--ink);color:var(--bg);font-weight:700;padding:13px 28px;border-radius:999px;font-size:1rem}
+.go:disabled{opacity:.4;cursor:not-allowed}
+.link{color:var(--ink);font-weight:600;font-size:.95rem;text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px}
+.tip{margin:18px 0 0;font-size:.93rem;color:var(--muted);max-width:46ch}
+.tip b{color:var(--ink);font-weight:700}
+.err{color:var(--blund);font-weight:600;font-size:.93rem;margin-top:12px;min-height:20px}
+
+/* Side step */
+.ask{margin-top:4px}
+.ask p{margin:0 0 12px;font-size:1rem;font-weight:600}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.side{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--surface2);text-align:left}
+.side:hover{border-color:var(--ink)}
+.side[aria-pressed="true"]{border-color:var(--accent);background:var(--accentSoft)}
+.side i{display:block;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--muted);margin-bottom:9px}
+.side i.w{background:#EFEFEA}.side i.b{background:#111}
+.side b{display:block;font-size:.97rem;font-weight:700}
+.side span{font-size:.86rem;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--bg)}
+.seg button{padding:8px 16px;font-size:.89rem;font-weight:600;color:var(--muted)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.lbl{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);width:100%;margin-bottom:-4px}
-.go{background:var(--accent);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;font-size:1rem}
-.go:disabled{opacity:.45;cursor:not-allowed}
-.link{color:var(--muted);font-weight:600;font-size:.9rem;text-decoration:underline;text-underline-offset:3px}
-.err{color:var(--blund);font-weight:600;font-size:.92rem;margin-top:10px;min-height:20px}
+.lbl{font-size:.79rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 
 /* Progress */
-.prog{margin-top:18px}
+.prog{margin-top:16px}
 .pbar{height:6px;background:var(--surface2);border-radius:999px;overflow:hidden}
 .pbar i{display:block;height:100%;background:var(--accent);width:0;transition:width .18s}
-.pnote{font-size:.9rem;color:var(--muted);margin-top:8px;font-weight:600}
+.pnote{font-size:.9rem;color:var(--muted);margin-top:9px;font-weight:600}
+
+/* Example board */
+.demo{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
+.boardwrap{position:relative}
+.board{width:100%;aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border-radius:10px;overflow:hidden}
+.sq{position:relative;display:flex;align-items:center;justify-content:center;font-size:min(6.4vw,34px);line-height:1}
+.sq.hl::before{content:"";position:absolute;inset:0;background:var(--accent);opacity:.4}
+.sq em{position:absolute;font-style:normal;font-size:.52rem;font-weight:700;opacity:.55;color:#333}
+.sq em.r{top:2px;left:3px}.sq em.f{bottom:1px;right:3px}
+.sq span{position:relative;z-index:2}
+.sq .w{color:#FFF;-webkit-text-stroke:1.4px #111;paint-order:stroke fill}
+.sq .b{color:#161616;-webkit-text-stroke:1.4px #000;paint-order:stroke fill}
+.arrows{position:absolute;inset:0;pointer-events:none;z-index:5}
+.legend{display:flex;gap:22px;margin-top:14px;font-size:.88rem;font-weight:600;color:var(--muted);flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{width:17px;height:3px;border-radius:2px;flex:none}
+.cap{margin:16px 0 0;font-size:.95rem;color:var(--muted);line-height:1.55}
+.cap b{color:var(--ink);font-weight:700}
 
 /* Results */
-.results{padding:10px 0 80px}
-.verdict{background:var(--accentSoft);border:1px solid var(--accent);border-radius:22px;padding:30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:34px;align-items:center;margin-bottom:34px}
-@media (max-width:900px){.verdict{grid-template-columns:1fr;gap:20px;padding:22px}}
-.kicker{font-size:.82rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--accent);margin:0 0 10px}
-.verdict h2{font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.02;letter-spacing:-.035em;margin:0 0 12px;font-weight:800}
-.verdict p{margin:0;font-size:1.08rem;color:var(--ink);max-width:48ch}
-.swing{display:flex;gap:26px;margin-top:18px;flex-wrap:wrap}
-.swing div{font-size:.86rem;color:var(--muted);font-weight:600}
-.swing b{display:block;font-size:1.5rem;color:var(--ink);font-weight:800;letter-spacing:-.02em}
-
-/* Board */
-.board{width:100%;aspect-ratio:1;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border-radius:12px;overflow:hidden;border:1px solid var(--line)}
-.sq{position:relative;display:flex;align-items:center;justify-content:center;font-size:min(7.5vw,40px);line-height:1}
-.sq.hl::before{content:"";position:absolute;inset:0;background:var(--accent);opacity:.35}
-.sq span{position:relative;z-index:2}
-.sq .w{color:#FFF;-webkit-text-stroke:1.5px #111;paint-order:stroke fill}
-.sq .b{color:#1A1A1A;-webkit-text-stroke:1.5px #000;paint-order:stroke fill}
-
-/* Move list */
+.results{padding:14px 0 70px}
+.verdict{background:var(--accentSoft);border:1px solid var(--accent);border-radius:22px;padding:30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,340px);gap:34px;align-items:center;margin-bottom:34px}
+@media (max-width:900px){.verdict{grid-template-columns:1fr;gap:22px;padding:22px}}
+.kicker{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--engine);margin:0 0 10px}
+.verdict h2{font-size:clamp(1.9rem,4.4vw,2.9rem);line-height:1.03;letter-spacing:-.035em;margin:0 0 12px;font-weight:800}
+.verdict>div>p{margin:0;font-size:1.06rem;max-width:46ch}
+.swing{display:flex;gap:26px;margin-top:20px;flex-wrap:wrap}
+.swing div{font-size:.84rem;color:var(--muted);font-weight:600}
+.swing b{display:block;font-size:1.45rem;color:var(--ink);font-weight:800;letter-spacing:-.02em;margin-top:2px}
 .sec{margin-bottom:34px}
-.sec h3{font-size:1.25rem;letter-spacing:-.02em;margin:0 0 4px}
-.sec .sub{color:var(--muted);font-size:.95rem;margin:0 0 16px}
+.sec h3{font-size:1.22rem;letter-spacing:-.02em;margin:0 0 4px}
+.sec .sub{color:var(--muted);font-size:.94rem;margin:0 0 16px}
 .moves{display:grid;grid-template-columns:repeat(auto-fill,minmax(124px,1fr));gap:7px}
-.mv{display:flex;align-items:center;gap:7px;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:.9rem;font-weight:600;text-align:left;white-space:nowrap}
+.mv{display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:.89rem;font-weight:600;text-align:left;white-space:nowrap}
 .mv:hover{border-color:var(--ink)}
 .mv[aria-pressed="true"]{border-color:var(--accent);background:var(--accentSoft)}
-.mv .n{color:var(--muted);font-weight:600;min-width:26px;font-size:.82rem}
-.mv .d{width:9px;height:9px;border-radius:50%;flex:none;background:transparent}
+.mv .n{color:var(--muted);min-width:27px;font-size:.81rem}
+.mv .d{width:9px;height:9px;border-radius:50%;flex:none;margin-left:auto;background:transparent}
 .d.inacc{background:var(--inacc)}.d.mist{background:var(--mist)}.d.blund{background:var(--blund)}
-.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:.88rem;color:var(--muted);font-weight:600}
-.legend span{display:flex;align-items:center;gap:7px}
+.chips{display:flex;gap:20px;flex-wrap:wrap;margin-top:15px;font-size:.87rem;color:var(--muted);font-weight:600}
+.chips span{display:flex;align-items:center;gap:7px}
 .chip{width:9px;height:9px;border-radius:50%}
-
-/* Missed */
 .missed{display:flex;flex-direction:column;gap:10px}
-.miss{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface);font-size:.97rem}
+.miss{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--surface);font-size:.96rem}
 .miss b{font-weight:800}
-.none{color:var(--muted);font-size:.97rem}
-
-/* Accuracy footer */
-.acc{border-top:1px solid var(--line);padding-top:20px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
-.acc div b{display:block;font-size:1.9rem;font-weight:800;letter-spacing:-.03em}
-.acc div span{font-size:.85rem;color:var(--muted);font-weight:600}
-.acc p{flex:1;min-width:260px;margin:0;font-size:.88rem;color:var(--muted);max-width:52ch}
-footer{color:var(--muted);font-size:.88rem;padding:26px 0 50px;border-top:1px solid var(--line)}
+.none{color:var(--muted);font-size:.96rem;margin:0}
+.acc{border-top:1px solid var(--line);padding-top:22px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
+.acc div b{display:block;font-size:1.85rem;font-weight:800;letter-spacing:-.03em}
+.acc div span{font-size:.84rem;color:var(--muted);font-weight:600}
+.acc p{flex:1;min-width:250px;margin:0;font-size:.87rem;color:var(--muted);max-width:52ch}
+footer{color:var(--muted);font-size:.87rem;padding:26px 0 50px;border-top:1px solid var(--line)}
 footer a{font-weight:600}
 </style>
 </head>
@@ -119,10 +138,10 @@ footer a{font-weight:600}
 <div class="wrap">
   <div class="bar">
     <div class="logo">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-5M21 7v5"/></svg>
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7h-5M21 7v5"/></svg></span>
       Turning Point
     </div>
-    <nav><a href="../">Both projects</a></nav>
+    <nav><span>Free</span><span>No sign-up</span><a href="../">Both projects</a></nav>
   </div>
 </div>
 
@@ -130,35 +149,60 @@ footer a{font-weight:600}
   <div class="hero">
     <div>
       <h1>See the move that decided your game.</h1>
-      <p class="lede">Drop in a PGN. Stockfish runs on your device, grades every move, and names the one that turned the result.</p>
-      <ul class="steps">
-        <li><b>1</b><span>Paste the PGN of a finished game, or drop the file in.</span></li>
-        <li><b>2</b><span>Tell it which side you played. A PGN doesn't say.</span></li>
-        <li><b>3</b><span>Get one verdict, not a table of percentages.</span></li>
-      </ul>
+      <p class="lede">Add a game from Chess.com or Lichess. Stockfish reads every move on your device and points to the moment the result changed.</p>
+
+      <div class="card">
+        <div id="step1">
+          <label class="dz" id="dz">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg></span>
+            <span><b>Drop a .pgn file</b><span>or <u>browse your files</u></span></span>
+            <input type="file" id="file" accept=".pgn,.txt,text/plain" hidden>
+          </label>
+          <textarea id="pgn" spellcheck="false" placeholder="Or paste the PGN text"></textarea>
+          <div class="row">
+            <button class="go" id="run">Analyze game</button>
+            <button class="link" id="ex">Use a sample game</button>
+          </div>
+        </div>
+
+        <div id="step2" class="ask hidden">
+          <p id="askq">Which side did you play?</p>
+          <div class="sides">
+            <button class="side" data-s="w" aria-pressed="true"><i class="w"></i><b id="nw">White</b><span id="sw">You moved first</span></button>
+            <button class="side" data-s="b" aria-pressed="false"><i class="b"></i><b id="nb">Black</b><span id="sb">You moved second</span></button>
+          </div>
+          <div class="row">
+            <span class="lbl">Depth</span>
+            <div class="seg" id="depth">
+              <button data-d="11" aria-pressed="true">Quick</button>
+              <button data-d="14" aria-pressed="false">Deep</button>
+            </div>
+          </div>
+          <div class="row">
+            <button class="go" id="start">Find the turning point</button>
+            <button class="link" id="back">Use a different game</button>
+          </div>
+        </div>
+
+        <div class="err" id="err"></div>
+        <div class="prog hidden" id="prog">
+          <div class="pbar"><i id="pfill"></i></div>
+          <div class="pnote" id="pnote">Starting engine…</div>
+        </div>
+      </div>
+
+      <p class="tip"><b>On Chess.com:</b> open the game, tap Share, choose PGN, then Download or Copy.</p>
     </div>
-    <div class="card">
-      <h2>Your game</h2>
-      <textarea id="pgn" spellcheck="false" placeholder="1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 ..."></textarea>
-      <div class="row"><button class="link" id="ex">Load an example game</button></div>
-      <div class="row"><span class="lbl">Which side did you play?</span>
-        <div class="seg" id="side">
-          <button data-s="w" aria-pressed="true">White</button>
-          <button data-s="b" aria-pressed="false">Black</button>
+
+    <div>
+      <div class="demo">
+        <div class="boardwrap" id="demoboard"></div>
+        <div class="legend">
+          <span><i style="background:var(--played)"></i>Move played</span>
+          <span><i style="background:var(--engine)"></i>Engine's choice</span>
         </div>
       </div>
-      <div class="row"><span class="lbl">Engine depth</span>
-        <div class="seg" id="depth">
-          <button data-d="11" aria-pressed="true">Quick</button>
-          <button data-d="14" aria-pressed="false">Deep</button>
-        </div>
-      </div>
-      <div class="row"><button class="go" id="run">Find the turning point</button></div>
-      <div class="err" id="err"></div>
-      <div class="prog hidden" id="prog">
-        <div class="pbar"><i id="pfill"></i></div>
-        <div class="pnote" id="pnote">Starting engine…</div>
-      </div>
+      <p class="cap"><b>Paris, 1858.</b> Black took on b5 and walked into Morphy's attack. Qb4+ kept the game alive.</p>
     </div>
   </div>
 </div>
@@ -2168,9 +2212,12 @@ window.Chess = Chess;
 const GLYPH={p:"♟",n:"♞",b:"♝",r:"♜",q:"♛",k:"♚"};
 const FILES=["a","b","c","d","e","f","g","h"];
 const MATE=10000;
-const EXAMPLE=`[Event "Paris Opera"]
-[White "Morphy"]
-[Black "Duke and Count"]
+const DEMO_FEN="rn2kb1r/p3qppp/2p2n2/1N2p1B1/2B1P3/1Q6/PPP2PPP/R3K2R b KQkq - 0 10";
+const EXAMPLE=`[Event "Paris"]
+[Site "Paris FRA"]
+[Date "1858.??.??"]
+[White "Paul Morphy"]
+[Black "Duke Karl / Count Isouard"]
 [Result "1-0"]
 
 1. e4 e5 2. Nf3 d6 3. d4 Bg4 4. dxe5 Bxf3 5. Qxf3 dxe5 6. Bc4 Nf6 7. Qb3 Qe7
@@ -2178,19 +2225,83 @@ const EXAMPLE=`[Event "Paris Opera"]
 14. Rd1 Qe6 15. Bxd7+ Nxd7 16. Qb8+ Nxb8 17. Rd8# 1-0`;
 
 const $=id=>document.getElementById(id);
-let side="w", depth=11, analysis=null, selPly=null;
+let side="w", depth=11, analysis=null, pendingPGN=null;
 
+/* ---------- board rendering ---------- */
+function sqCenter(sq,flip){
+  let f=FILES.indexOf(sq[0]), r=parseInt(sq[1],10);
+  let col=flip?7-f:f, row=flip?r-1:8-r;
+  return {x:(col+0.5)*12.5, y:(row+0.5)*12.5};
+}
+function arrowSVG(list,flip){
+  let defs="",paths="";
+  list.forEach((a,i)=>{
+    const p1=sqCenter(a.from,flip), p2=sqCenter(a.to,flip);
+    const dx=p2.x-p1.x, dy=p2.y-p1.y, len=Math.hypot(dx,dy);
+    // stop short so the head sits on the square, not over the piece
+    const back=4.2, ux=dx/len, uy=dy/len;
+    const ex=p2.x-ux*back, ey=p2.y-uy*back;
+    const sx=p1.x+ux*3.4, sy=p1.y+uy*3.4;
+    defs+=`<marker id="h${i}" viewBox="0 0 10 10" refX="7.2" refY="5" markerWidth="4.4" markerHeight="4.4" orient="auto"><path d="M0 0.6 L9.5 5 L0 9.4 z" fill="${a.color}"/></marker>`;
+    paths+=`<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="${a.color}" stroke-width="2.3" stroke-linecap="round" marker-end="url(#h${i})"${a.dash?' stroke-dasharray="4.5 3.2"':''} opacity=".95"/>`;
+  });
+  return `<svg class="arrows" viewBox="0 0 100 100" preserveAspectRatio="none"><defs>${defs}</defs>${paths}</svg>`;
+}
+function boardHTML(fen,hl,flip,arrows,coords){
+  const g=new Chess(fen), b=g.board();
+  const rows=flip?[7,6,5,4,3,2,1,0]:[0,1,2,3,4,5,6,7];
+  const cols=flip?[7,6,5,4,3,2,1,0]:[0,1,2,3,4,5,6,7];
+  let h='<div class="board">';
+  for(const r of rows)for(const c of cols){
+    const sq=FILES[c]+(8-r), pc=b[r][c], light=(r+c)%2===0;
+    const on=hl&&(sq===hl.from||sq===hl.to);
+    h+=`<div class="sq${on?" hl":""}" style="background:${light?"var(--sql)":"var(--sqd)"}">`;
+    if(coords&&c===cols[0])h+=`<em class="r">${8-r}</em>`;
+    if(coords&&r===rows[7])h+=`<em class="f">${FILES[c]}</em>`;
+    if(pc)h+=`<span class="${pc.color}">${GLYPH[pc.type]}</span>`;
+    h+="</div>";
+  }
+  h+="</div>";
+  if(arrows&&arrows.length)h+=arrowSVG(arrows,flip);
+  return h;
+}
+$("demoboard").innerHTML=boardHTML(DEMO_FEN,null,false,[
+  {from:"c6",to:"b5",color:"var(--played)"},
+  {from:"e7",to:"b4",color:"var(--engine)",dash:true}
+],true);
+
+/* ---------- input ---------- */
 $("ex").onclick=()=>{$("pgn").value=EXAMPLE;$("err").textContent="";};
-document.querySelectorAll("#side button").forEach(b=>b.onclick=()=>{
-  side=b.dataset.s;document.querySelectorAll("#side button").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+const dz=$("dz"),fileIn=$("file");
+fileIn.onchange=()=>{const f=fileIn.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{$("pgn").value=r.result;$("err").textContent="";};r.readAsText(f);};
+["dragover","dragenter"].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add("over")}));
+["dragleave","drop"].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove("over")}));
+dz.addEventListener("drop",ev=>{const f=ev.dataTransfer.files[0];if(!f)return;
+  const r=new FileReader();r.onload=()=>{$("pgn").value=r.result;$("err").textContent="";};r.readAsText(f);});
+
+document.querySelectorAll(".side").forEach(b=>b.onclick=()=>{
+  side=b.dataset.s;document.querySelectorAll(".side").forEach(x=>x.setAttribute("aria-pressed",x===b));});
 document.querySelectorAll("#depth button").forEach(b=>b.onclick=()=>{
   depth=+b.dataset.d;document.querySelectorAll("#depth button").forEach(x=>x.setAttribute("aria-pressed",x===b));});
+$("back").onclick=()=>{$("step2").classList.add("hidden");$("step1").classList.remove("hidden");$("err").textContent="";};
 
-const ta=$("pgn");
-["dragover","dragenter"].forEach(e=>ta.addEventListener(e,ev=>{ev.preventDefault();ta.classList.add("drop")}));
-["dragleave","drop"].forEach(e=>ta.addEventListener(e,ev=>{ev.preventDefault();ta.classList.remove("drop")}));
-ta.addEventListener("drop",ev=>{const f=ev.dataTransfer.files[0];if(!f)return;
-  const r=new FileReader();r.onload=()=>{ta.value=r.result;};r.readAsText(f);});
+$("run").onclick=()=>{
+  const text=$("pgn").value.trim();
+  $("err").textContent="";
+  if(!text){$("err").textContent="Paste a PGN or drop a file first, or try the sample game.";return;}
+  const g=new Chess();
+  if(!g.load_pgn(text,{sloppy:true})){$("err").textContent="That doesn't parse as a PGN. Make sure it's a full game score.";return;}
+  if(g.history().length<4){$("err").textContent="That game is too short to have a turning point.";return;}
+  pendingPGN=g;
+  const h=g.header()||{};
+  $("nw").textContent=h.White&&h.White!=="?"?h.White:"White";
+  $("nb").textContent=h.Black&&h.Black!=="?"?h.Black:"Black";
+  $("sw").textContent="Moved first";
+  $("sb").textContent="Moved second";
+  $("askq").textContent="Which side were you? A PGN doesn't say.";
+  $("step1").classList.add("hidden");$("step2").classList.remove("hidden");
+};
 
 /* ---------- engine ---------- */
 function makeEngine(url){
@@ -2202,7 +2313,7 @@ function makeEngine(url){
   function wait(match,watch){
     return new Promise((res,rej)=>{
       onLine=line=>{
-        if(line==="__error__"){onLine=null;rej(new Error("engine failed to load"));return;}
+        if(line==="__error__"){onLine=null;rej(new Error("engine failed"));return;}
         if(watch)watch(line);
         const r=match(line);
         if(r!==undefined){onLine=null;res(r);}
@@ -2217,8 +2328,7 @@ function makeEngine(url){
     },
     async evalFen(fen){
       let score=null;
-      cmd("position fen "+fen);
-      cmd("go depth "+depth);
+      cmd("position fen "+fen); cmd("go depth "+depth);
       return wait(
         l=>l.startsWith("bestmove")?{score,best:l.split(" ")[1]}:undefined,
         l=>{ if(l.startsWith("info ")&&l.includes(" score ")){const s=parseScore(l);if(s)score=s;} }
@@ -2237,38 +2347,26 @@ function toWhite(sc,turn){
   let v = sc.mate!==undefined ? (sc.mate>0?MATE-Math.abs(sc.mate)*10:-(MATE-Math.abs(sc.mate)*10)) : sc.cp;
   return turn==="w"?v:-v;
 }
+function wp(cp){return 1/(1+Math.exp(-0.004*Math.max(-1500,Math.min(1500,cp))));}
 
-/* ---------- analysis ---------- */
-$("run").onclick=async()=>{
-  const text=ta.value.trim();
-  $("err").textContent="";
-  if(!text){$("err").textContent="Paste a PGN first, or load the example.";return;}
-  const g=new Chess();
-  if(!g.load_pgn(text,{sloppy:true})){$("err").textContent="That doesn't parse as a PGN. Check it's a full game score.";return;}
+$("start").onclick=async()=>{
+  const g=pendingPGN; if(!g)return;
   const hist=g.history({verbose:true});
-  if(hist.length<4){$("err").textContent="That game is too short to have a turning point.";return;}
-
-  $("run").disabled=true;$("prog").classList.remove("hidden");
+  $("start").disabled=true;$("prog").classList.remove("hidden");$("err").textContent="";
   const eng=makeEngine("stockfish-19-lite-single.js");
   try{
     $("pnote").textContent="Starting engine…";
     await eng.init();
-    // replay to collect fens
     const rep=new Chess(); const fens=[rep.fen()];
     for(const m of hist){rep.move(m.san);fens.push(rep.fen());}
     const evals=[];
     for(let i=0;i<fens.length;i++){
       const turn=fens[i].split(" ")[1];
-      const over=new Chess(fens[i]);
-      if(over.game_over()){
-        evals.push(over.in_checkmate()? (turn==="w"?-MATE:MATE) : 0);
-      } else {
-        const r=await eng.evalFen(fens[i]);
-        evals.push(toWhite(r.score,turn));
-      }
-      const pct=Math.round(100*(i+1)/fens.length);
-      $("pfill").style.width=pct+"%";
-      $("pnote").textContent="Grading position "+(i+1)+" of "+fens.length;
+      const pos=new Chess(fens[i]);
+      if(pos.game_over()) evals.push(pos.in_checkmate()?(turn==="w"?-MATE:MATE):0);
+      else { const r=await eng.evalFen(fens[i]); evals.push(toWhite(r.score,turn)); }
+      $("pfill").style.width=Math.round(100*(i+1)/fens.length)+"%";
+      $("pnote").textContent="Reading move "+(i+1)+" of "+fens.length;
     }
     eng.stop();
     analysis=build(hist,fens,evals);
@@ -2278,10 +2376,8 @@ $("run").onclick=async()=>{
     $("err").textContent="The engine could not start. Try reloading the page.";
     $("prog").classList.add("hidden");
   }
-  $("run").disabled=false;
+  $("start").disabled=false;
 };
-
-function wp(cp){return 1/(1+Math.exp(-0.004*Math.max(-1500,Math.min(1500,cp))));}
 
 function build(hist,fens,evals){
   const plies=hist.map((m,i)=>{
@@ -2289,29 +2385,25 @@ function build(hist,fens,evals){
     const before=mover==="w"?evals[i]:-evals[i];
     const after=mover==="w"?evals[i+1]:-evals[i+1];
     const loss=Math.max(0,before-after);
-    // how much of the game the mover actually gave away, in win probability
     const drop=Math.max(0,wp(before)-wp(after));
     let label=null;
     if(Math.abs(before)<900){
       if(loss>=200)label="blund"; else if(loss>=100)label="mist"; else if(loss>=50)label="inacc";
     }
     return {i,san:m.san,from:m.from,to:m.to,mover,before,after,loss,drop,label,
-            uBefore:side==="w"?evals[i]:-evals[i],
-            uAfter:side==="w"?evals[i+1]:-evals[i+1],
-            num:Math.floor(i/2)+1,fen:fens[i+1]};
+      uBefore:side==="w"?evals[i]:-evals[i],
+      uAfter:side==="w"?evals[i+1]:-evals[i+1],
+      num:Math.floor(i/2)+1,fenBefore:fens[i],fen:fens[i+1]};
   });
-  // The turning point is the move that cost the most actual result, not the most
-  // centipawns: going from -5 to -8 is a huge number and changes nothing.
+  // biggest change in actual result, not raw centipawns
   let tp=plies[0];
   for(const p of plies)if(p.drop>tp.drop)tp=p;
-  // missed chances: opponent erred handing you >=150, you gave >=100 back
   const missed=[];
   for(const p of plies){
     if(p.mover!==side)continue;
     const prev=plies[p.i-1];
-    if(!prev||prev.loss<150)continue;
-    if(p.before<150)continue;
-    if(p.loss>=100)missed.push({p,prev});
+    if(!prev||prev.loss<150||p.before<150||p.loss<100)continue;
+    missed.push({p,prev});
   }
   const mine=plies.filter(p=>p.mover===side);
   const avg=mine.length?mine.reduce((s,p)=>s+Math.min(p.loss,1000),0)/mine.length:0;
@@ -2322,7 +2414,6 @@ function build(hist,fens,evals){
     blund:mine.filter(p=>p.label==="blund").length}};
 }
 
-/* ---------- render ---------- */
 function fmtEval(v){
   if(Math.abs(v)>=MATE-200){const n=Math.max(1,Math.round((MATE-Math.abs(v))/10));return (v>0?"M":"-M")+n;}
   return (v>0?"+":"")+(v/100).toFixed(1);
@@ -2330,30 +2421,15 @@ function fmtEval(v){
 function verdictText(tp){
   const yours=tp.mover===side;
   if(tp.drop<0.08){
-    return yours?"No single move decided this one. Your worst moment cost very little, and the result came from small things adding up."
+    return yours?"No single move decided this one. Your worst moment cost very little, so the result came from small things adding up."
                 :"No single move decided this one. Neither side handed the game over, so the result came from small things adding up.";
   }
   const a=Math.round(wp(tp.uBefore)*100), b=Math.round(wp(tp.uAfter)*100);
-  const who=yours?"You played":"Your opponent played";
-  const verb=yours?"dropped your chances":"lifted your chances";
-  return who+" "+tp.san+" on move "+tp.num+". That one move "+verb+" from "+a+"% to "+b+"%.";
-}
-function boardHTML(fen,from,to){
-  const g=new Chess(fen), b=g.board();
-  const rows=side==="b"?[7,6,5,4,3,2,1,0]:[0,1,2,3,4,5,6,7];
-  const cols=side==="b"?[7,6,5,4,3,2,1,0]:[0,1,2,3,4,5,6,7];
-  let h='<div class="board">';
-  for(const r of rows)for(const c of cols){
-    const sq=FILES[c]+(8-r),pc=b[r][c],light=(r+c)%2===0;
-    h+=`<div class="sq${(sq===from||sq===to)?" hl":""}" style="background:${light?"var(--sql)":"var(--sqd)"}">`;
-    if(pc)h+=`<span class="${pc.color}">${GLYPH[pc.type]}</span>`;
-    h+="</div>";
-  }
-  return h+"</div>";
+  return (yours?"You played ":"Your opponent played ")+tp.san+" on move "+tp.num+
+    ". That one move "+(yours?"dropped":"lifted")+" your chances from "+a+"% to "+b+"%.";
 }
 function render(){
   const a=analysis,tp=a.tp;
-  selPly=tp.i;
   $("setup").classList.add("hidden");
   const R=$("results");R.classList.remove("hidden");
   R.innerHTML=`
@@ -2368,19 +2444,19 @@ function render(){
         <div>Your win chance<b>${Math.round(wp(tp.uBefore)*100)}% → ${Math.round(wp(tp.uAfter)*100)}%</b></div>
       </div>
     </div>
-    <div id="bd">${boardHTML(tp.fen,tp.from,tp.to)}</div>
+    <div id="bd">${boardHTML(tp.fen,{from:tp.from,to:tp.to},side==="b",null,true)}</div>
   </section>
 
   <section class="sec">
-    <h3>Every move, graded</h3>
-    <p class="sub">Your moves are marked. Tap any move to see the position.</p>
+    <h3>Every move, read</h3>
+    <p class="sub">Your moves carry the marks. Tap any move to see the position.</p>
     <div class="moves">${a.plies.map(p=>`
-      <button class="mv" data-i="${p.i}" aria-pressed="${p.i===selPly}">
-        <span class="n">${p.mover==="w"?p.num+".":p.num+"…"}</span>
+      <button class="mv" data-i="${p.i}" aria-pressed="${p.i===tp.i}">
+        <span class="n">${p.num}${p.mover==="w"?".":"…"}</span>
         <span>${p.san}</span>
         <span class="d ${p.mover===side&&p.label?p.label:""}"></span>
       </button>`).join("")}</div>
-    <div class="legend">
+    <div class="chips">
       <span><i class="chip" style="background:var(--inacc)"></i>Inaccuracy ${a.counts.inacc}</span>
       <span><i class="chip" style="background:var(--mist)"></i>Mistake ${a.counts.mist}</span>
       <span><i class="chip" style="background:var(--blund)"></i>Blunder ${a.counts.blund}</span>
@@ -2402,14 +2478,16 @@ function render(){
     <p>This number is ours, not Chess.com's, and it will not match theirs. A single percentage flatters whoever was winning, so it sits down here instead of at the top. The move above is the thing worth looking at.</p>
   </section>
 
-  <section class="sec"><button class="go" id="again">Analyse another game</button></section>`;
+  <section class="sec"><button class="go" id="again">Read another game</button></section>`;
 
   R.querySelectorAll(".mv").forEach(b=>b.onclick=()=>{
-    const p=a.plies[+b.dataset.i];selPly=p.i;
+    const p=a.plies[+b.dataset.i];
     R.querySelectorAll(".mv").forEach(x=>x.setAttribute("aria-pressed",x===b));
-    $("bd").innerHTML=boardHTML(p.fen,p.from,p.to);
+    $("bd").innerHTML=boardHTML(p.fen,{from:p.from,to:p.to},side==="b",null,true);
   });
-  $("again").onclick=()=>{R.classList.add("hidden");$("setup").classList.remove("hidden");
+  $("again").onclick=()=>{
+    R.classList.add("hidden");$("setup").classList.remove("hidden");
+    $("step2").classList.add("hidden");$("step1").classList.remove("hidden");
     $("prog").classList.add("hidden");$("pfill").style.width="0";window.scrollTo(0,0);};
   window.scrollTo(0,0);
 }
